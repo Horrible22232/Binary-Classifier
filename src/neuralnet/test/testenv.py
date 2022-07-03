@@ -4,8 +4,8 @@ class SinEnv:
     def __init__(self, n):
         """ Initializes a Sinus Environment. 
 
-        Args:
-            {int}: number of samples to generate
+        Arguments:
+            n {int} -- number of samples to generate
         """
         self.n = n
         self.cos = lambda x: np.cos(x)
