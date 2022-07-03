@@ -29,6 +29,6 @@ class YamlParser:
     def get_config(self):
         """ 
         Returns:
-            {dict} -- Nested dictionary that contains configs for the environment, model, evaluation and trainer.
+            {dict} -- Nested dictionary that contains configs for the  model and trainer.
         """
         return self._config
