@@ -5,9 +5,9 @@ class Classifier(nn.Module):
     def __init__(self, in_features, config: dict, device) -> None:
         """Initializes the classifier model.
 
-        Args:
-            in_features {int}: The number of features in the input data.
-            config {dict}: The model configuration.
+        Arguments:
+            in_features {int} -- The number of features in the input data.
+            config {dict} -- The model configuration.
         """
         super().__init__()
         self.encoder = nn.Linear(in_features, config['hidden_size'])

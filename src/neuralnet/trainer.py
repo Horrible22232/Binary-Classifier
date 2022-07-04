@@ -7,7 +7,7 @@ from datagen import SinusGenerator
 class Trainer:
     def __init__(self, config:dict, device:torch.device) -> None:
         """Initializes all needed training components.
-        Args:
+        Arguments:
             config {dict} -- Configuration and hyperparameters of the trainer and model.
             device {torch.device, optional} -- Determines the training device. Defaults to cpu.
         """
