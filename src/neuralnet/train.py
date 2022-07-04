@@ -20,11 +20,8 @@ def main() -> None:
 
     if not cpu:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        if torch.cuda.is_available():
-            torch.set_default_tensor_type("torch.cuda.FloatTensor")
     else:
         device = torch.device("cpu")
-        torch.set_default_tensor_type("torch.FloatTensor")
 
     # Initialize the trainer and commence training
     trainer = Trainer(config, device=device)

@@ -1,7 +1,7 @@
 import numpy as np
 
-class SinEnv: 
-    """An Environment that samples a sinus function and a cosinus function."""
+class SinusGenerator: 
+    """A generator that samples a sinus- and a cosinus function between 0 and 1."""
     def __init__(self, n: int) -> None:
         """ Initializes a Sinus Environment. 
 
@@ -14,7 +14,7 @@ class SinEnv:
         self.func = [self.cos, self.sin]
     
     def sample(self, num_samples: int) -> tuple:
-        """ Samples the environment.
+        """ Generates a batch of samples.
         Arguments:
         {int} num_samples -- number of samples to generate
         
