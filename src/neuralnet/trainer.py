@@ -49,7 +49,7 @@ class Trainer:
         test_batch, label = torch.tensor(test_batch, dtype=torch.float32), torch.tensor(label, dtype=torch.float32)
         # Get the output of the model
         output = self.model(test_batch).to(self.device)
-        # Get the prediction prob
+        # Get the prediction probability
         output = torch.sigmoid(output).detach().cpu()
         # Calculate the accuracy
         accuracy_label_0, accuracy_label_1 = 1. - output[label == 0].mean().item(), output[label == 1].mean().item()
