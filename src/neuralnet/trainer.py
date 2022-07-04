@@ -19,18 +19,26 @@ class Trainer:
         self.model = Classifier(2, self.config, self.device).to(self.device)
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
         self.criterion = nn.BCEWithLogitsLoss()
-        self.test_env = SinEnv(self.batch_size)
-        
+        self.test_env = SinEnv(self.batch_size)  
     
     def run_training(self) -> None:
         for (epoch, (batch, label)) in enumerate(self.test_env.sample(self.epochs)):
             self.optimizer.zero_grad()
             output = self.model(torch.tensor(batch, dtype=torch.float32).to(self.device))
-            loss = self.criterion(output, torch.tensor(label, dtype=torch.float32).unsqueeze(1).to(self.device))
+            loss = self.criterion(output, torch.tensor(label, dtype=torch.float32).to(self.device))
             loss.backward()
             self.optimizer.step()
             
             print("Epoch: {}, Loss: {}".format(epoch, loss.item()))
+            self.evaluate()
+    
+    def evaluate(self) -> None:
+        for (test_batch, label) in self.test_env.sample(1):
+            output = self.model(torch.tensor(test_batch, dtype=torch.float32).to(self.device))
+            output = torch.sigmoid(output).detach().cpu()
+            label = torch.tensor(label, dtype=torch.float32)
+            
+            print("Probality for label 0: {:2f}, Probability for label 1: {:2f}".format(output[label == 0].mean().item(), output[label == 1].mean().item()))
     
     def close(self) -> None:
         pass

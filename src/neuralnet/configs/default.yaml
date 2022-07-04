@@ -1,4 +1,4 @@
-"epochs" : 200
-"learning_rate": 1e-4
-"batch_size": 64
+"epochs" : 6000
+"learning_rate": 3.25e-4
+"batch_size": 128
 "hidden_size": 200
