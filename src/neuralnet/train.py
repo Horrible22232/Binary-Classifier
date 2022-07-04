@@ -11,7 +11,7 @@ def main() -> None:
         train.py --help
     
     Options:
-        --config=<path>            Path to the config file [default: ./configs/default.yaml]
+        --config=<path>            Path to the config file [default: ./src/neuralnet/configs/default.yaml]
         --cpu                      Force training on CPU [default: False]
     """
     options = docopt(_USAGE)

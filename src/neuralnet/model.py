@@ -2,17 +2,17 @@ import torch
 from torch import nn
 
 class Classifier(nn.Module):
-    def __init__(self, in_features, config: dict) -> None:
+    def __init__(self, in_features, config: dict, device) -> None:
         """Initializes the classifier model.
 
         Args:
             in_features {int}: The number of features in the input data.
             config {dict}: The model configuration.
         """
+        super().__init__()
         self.encoder = nn.Linear(in_features, config['hidden_size'])
         self.activ_fn = nn.ReLU()
         self.out = nn.Linear(config['hidden_size'], 1)
-        self.sigmoid = nn.Sigmoid()
     
     def forward(self, data: torch.Tensor) -> torch.Tensor:
         """
@@ -26,5 +26,4 @@ class Classifier(nn.Module):
         """
         h = self.activ_fn(self.encoder(data))
         h = self.out(h)
-        h = self.sigmoid(h)
         return h
