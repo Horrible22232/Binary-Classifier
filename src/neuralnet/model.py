@@ -9,9 +9,9 @@ class Classifier(nn.Module):
             in_features {int}: The number of features in the input data.
             config {dict}: The model configuration.
         """
-        self.linear1 = nn.Linear(in_features, config['hidden_size'])
+        self.encoder = nn.Linear(in_features, config['hidden_size'])
         self.activ_fn = nn.ReLU()
-        self.linear2 = nn.Linear(config['hidden_size'], 1)
+        self.out = nn.Linear(config['hidden_size'], 1)
         self.sigmoid = nn.Sigmoid()
     
     def forward(self, data: torch.Tensor) -> torch.Tensor:
@@ -24,7 +24,7 @@ class Classifier(nn.Module):
         Returns:
             {torch.Tensor} -- The output of the model, wether the data is a positive or negative example.
         """
-        h = self.activ_fn(self.linear1(data))
-        h = self.linear2(h)
+        h = self.activ_fn(self.encoder(data))
+        h = self.out(h)
         h = self.sigmoid(h)
         return h
