@@ -3,7 +3,7 @@ from docopt import docopt
 from trainer import Trainer
 from yaml_parser import YamlParser
 
-def main():
+def main() -> None:
     # Command line arguments via docopt
     _USAGE = """
     Usage:
