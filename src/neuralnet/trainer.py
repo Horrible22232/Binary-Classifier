@@ -19,13 +19,14 @@ class Trainer:
         self.model = Classifier(2, self.config, self.device).to(self.device)
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
         self.criterion = nn.BCEWithLogitsLoss()
-        self.data_gen = SinusGenerator(self.batch_size)  
+        self.train_data_gen = SinusGenerator(self.batch_size)
+        self.test_data_gen = SinusGenerator(500) 
     
     def run_training(self) -> None:
         """
         Trains the model for the specified number of epochs.
         """
-        for (epoch, (batch, label)) in enumerate(self.data_gen.sample(self.epochs)):
+        for epoch, (batch, label) in enumerate(self.train_data_gen.sample(self.epochs)):
             # Convert the data to a tensor and move it to the device
             batch, label = torch.tensor(batch, dtype=torch.float32).to(self.device), torch.tensor(label, dtype=torch.float32).to(self.device)
             # Calculate the loss and optimize the model
@@ -44,7 +45,7 @@ class Trainer:
         Evaluates the model on the test set.
         """
         # Get the test set
-        test_batch, label = list(self.data_gen.sample(1))[0]
+        test_batch, label = list(self.test_data_gen.sample(1))[0]
         # Convert the data to a tensor
         test_batch, label = torch.tensor(test_batch, dtype=torch.float32), torch.tensor(label, dtype=torch.float32)
         # Get the output of the model
