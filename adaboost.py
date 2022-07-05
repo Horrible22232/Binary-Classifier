@@ -1,6 +1,6 @@
 import numpy as np
 
-def load_models():
+def load_models() -> None:
     """
     Loads the models from the disk
     
