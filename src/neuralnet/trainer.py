@@ -51,9 +51,14 @@ class Trainer:
         output = self.model(test_batch).to(self.device)
         # Get the prediction probability
         output = torch.sigmoid(output).detach().cpu()
+        # Get the predicted label
+        pred_label = torch.bernoulli(output)
+        # Calculate the true positive and true negative rate
+        true_positive, true_negative = pred_label[label == 1].sum() / label.sum(), (1. - pred_label[label == 0]).sum() / (1. - label).sum()
         # Calculate the accuracy
-        accuracy_label_0, accuracy_label_1 = 1. - output[label == 0].mean().item(), output[label == 1].mean().item()
-        print("Acurracy for label 0: {:2f}, Accuracy score for label 1: {:2f}".format(accuracy_label_0, accuracy_label_1))
+        accuracy = (pred_label == label).sum() / label.shape[0]
+        # Print the results
+        print("True positive score: {:2f}, True negative score: {:2f}, Accuracy: {:2f}".format(true_positive, true_negative, accuracy))
     
     def close(self) -> None:
         pass
