@@ -20,7 +20,7 @@ class Trainer:
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
         self.criterion = nn.BCEWithLogitsLoss()
         self.train_data_gen = SinusGenerator(self.batch_size)
-        self.test_data_gen = SinusGenerator(500) 
+        self.test_data_gen = SinusGenerator(1000) 
     
     def run_training(self) -> None:
         """
