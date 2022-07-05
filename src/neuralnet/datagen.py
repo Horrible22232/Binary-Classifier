@@ -3,7 +3,7 @@ import numpy as np
 class SinusGenerator: 
     """A generator that samples a sinus- and a cosinus function between 0 and 1."""
     def __init__(self, n: int) -> None:
-        """Initializes a Sinus Environment. 
+        """Initializes a sinus generator. 
 
         Arguments:
             n {int} -- number of samples to generate
