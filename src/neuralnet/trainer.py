@@ -1,3 +1,5 @@
+import os
+import pickle
 import torch
 from torch import optim
 from torch import nn
@@ -5,14 +7,16 @@ from model import Classifier
 from datagen import SinusGenerator 
 
 class Trainer:
-    def __init__(self, config:dict, device:torch.device) -> None:
+    def __init__(self, config:dict, run_id:str="run", device:torch.device=torch.device("cpu")) -> None:
         """Initializes all needed training components.
         Arguments:
             config {dict} -- Configuration and hyperparameters of the trainer and model.
+            run_id {str, optional} -- A tag used to save Tensorboard Summaries and the trained model. Defaults to "run".
             device {torch.device, optional} -- Determines the training device. Defaults to cpu.
         """
         self.config = config
         self.device = device
+        self.run_id = run_id
         self.lr = self.config['learning_rate']
         self.epochs = self.config['epochs']
         self.batch_size = self.config['batch_size']
@@ -39,6 +43,8 @@ class Trainer:
             # Print the loss and evaluation score
             print("Epoch: {}, Loss: {}".format(epoch, loss.item()))
             self.evaluate()
+        # Save the model and the used training config after the training
+        self._save_model()
     
     def evaluate(self) -> None:
         """
@@ -60,6 +66,14 @@ class Trainer:
         accuracy = (pred_label == label).sum() / label.shape[0]
         # Print the results
         print("True positive score: {:2f}, True negative score: {:2f}, Accuracy: {:2f}".format(true_positive, true_negative, accuracy))
+    
+    def _save_model(self) -> None:
+        """Saves the model and the used training config to the models directory. The filename is based on the run id."""
+        if not os.path.exists("./models"):
+            os.makedirs("./models")
+        self.model.cpu()
+        pickle.dump((self.model.state_dict(), self.config), open("./models/" + self.run_id + ".nn", "wb"))
+        print("Model saved to " + "./models/" + self.run_id + ".nn")
     
     def close(self) -> None:
         pass

@@ -12,10 +12,12 @@ def main() -> None:
     
     Options:
         --config=<path>            Path to the config file [default: ./src/neuralnet/configs/default.yaml]
+        --run-id=<path>            Specifies the tag for saving the tensorboard summary and model [default: run].
         --cpu                      Force training on CPU [default: False]
     """
     options = docopt(_USAGE)
     cpu = options["--cpu"]
+    run_id = options["--run-id"]
     config = YamlParser(options["--config"]).get_config()
 
     if not cpu:
@@ -24,7 +26,7 @@ def main() -> None:
         device = torch.device("cpu")
 
     # Initialize the trainer and commence training
-    trainer = Trainer(config, device=device)
+    trainer = Trainer(config, run_id, device)
     trainer.run_training()
     trainer.close()
 
