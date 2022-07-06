@@ -4,7 +4,7 @@ import torch
 from torch import optim
 from torch import nn
 from model import Classifier
-from datagen import SinusGenerator 
+from utils import create_data_loader
 
 class Trainer:
     def __init__(self, config:dict, run_id:str="run", device:torch.device=torch.device("cpu")) -> None:
@@ -21,16 +21,17 @@ class Trainer:
         self.epochs = self.config['epochs']
         self.batch_size = self.config['batch_size']
         self.model = Classifier(2, self.config, self.device).to(self.device)
+        self.model.train()
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
         self.criterion = nn.BCEWithLogitsLoss()
-        self.train_data_gen = SinusGenerator(self.batch_size)
-        self.test_data_gen = SinusGenerator(1000) 
+        self.train_data_gen = create_data_loader(config)
+        self.test_data_gen = create_data_loader(config) 
     
     def run_training(self) -> None:
         """
         Trains the model for the specified number of epochs.
         """
-        for epoch, (batch, label) in enumerate(self.train_data_gen.sample(self.epochs)):
+        for epoch, (batch, label) in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
             # Convert the data to a tensor and move it to the device
             batch, label = torch.tensor(batch, dtype=torch.float32).to(self.device), torch.tensor(label, dtype=torch.float32).to(self.device)
             # Calculate the loss and optimize the model
@@ -51,7 +52,7 @@ class Trainer:
         Evaluates the model on the test set.
         """
         # Get the test set
-        test_batch, label = list(self.test_data_gen.sample(1))[0]
+        test_batch, label = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
         # Convert the data to a tensor
         test_batch, label = torch.tensor(test_batch, dtype=torch.float32), torch.tensor(label, dtype=torch.float32)
         # Get the output of the model
