@@ -33,7 +33,7 @@ class Trainer:
         """
         for epoch, (batch, label) in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
             # Convert the data to a tensor and move it to the device
-            batch, label = torch.tensor(batch, dtype=torch.float32).to(self.device), torch.tensor(label, dtype=torch.float32).to(self.device)
+            batch, label = torch.tensor(batch, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
             # Calculate the loss and optimize the model
             self.optimizer.zero_grad()
             output = self.model(batch)
@@ -54,7 +54,7 @@ class Trainer:
         # Get the test set
         test_batch, label = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
         # Convert the data to a tensor
-        test_batch, label = torch.tensor(test_batch, dtype=torch.float32), torch.tensor(label, dtype=torch.float32)
+        test_batch, label = torch.tensor(test_batch, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
         # Get the output of the model
         output = self.model(test_batch).to(self.device)
         # Get the prediction probability
