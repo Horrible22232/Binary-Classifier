@@ -8,6 +8,7 @@ class SinusGenerator:
         self.cos = lambda x: np.cos(x)
         self.sin = lambda x: np.sin(x)
         self.func = [self.cos, self.sin]
+        self.dim = 2
     
     def sample(self, num_batches: int, num_samples: int) -> tuple:
         """Generates a batch of samples.
@@ -37,6 +38,7 @@ class NegativeSeqDataGen():
         The label is 1 if the negative value is in the middle of the sequence and 0 otherwise."""
     def __init__(self, config) -> None:
         self.sequence_len = config["sequence_len"]
+        self.dim = 1
         
     def sample(self, num_batches: int, num_samples: int) -> tuple:
         """Generates a batch of samples.

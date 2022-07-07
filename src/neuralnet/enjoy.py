@@ -27,7 +27,7 @@ def main():
     data_loader = create_data_loader(config)
     
     # Initialize model and load its parameters
-    model = Classifier(2, config, device)
+    model = Classifier(data_loader.dim, config, device)
     model.load_state_dict(state_dict)
     model.to(device)
     model.eval()
