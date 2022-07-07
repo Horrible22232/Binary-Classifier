@@ -3,5 +3,6 @@
 "learning_rate": 3.25e-4
 "batch_size": 128
 "model":
-  "encoder": "gru"
+  "encoder": "gru" # gru, lstm
+  "hidden_state_size": 222
   "hidden_size": 200
