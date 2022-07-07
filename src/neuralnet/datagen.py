@@ -25,8 +25,10 @@ class SinusGenerator:
             labels = np.random.randint(2, size=num_samples).astype(np.int).tolist()
             # Evaluate the function at the x-values
             func_vals = [self.func[label](x) for x, label in zip(x_vals, labels)]
-            # Create the data tuple
-            data = [[x_val, func_val] for x_val, func_val in zip(x_vals, func_vals)]
+            # Create the samples
+            samples = [[x_val, func_val] for x_val, func_val in zip(x_vals, func_vals)]
+            # Create the dictionary to be returned
+            data = {"samples": samples, "label": labels}
             # Return the data and labels
-            yield data, labels
+            yield data
         

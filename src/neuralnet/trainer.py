@@ -38,12 +38,14 @@ class Trainer:
     def run_training(self) -> None:
         """Trains the model for the specified number of epochs.
         """
-        for epoch, (batch, label) in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
+        for epoch, data in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
+            # Get the samples and labels
+            samples, label = data["samples"], data["label"]
             # Convert the data to a tensor and move it to the device
-            batch, label = torch.tensor(batch, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
+            samples, label = torch.tensor(samples, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
             # Calculate the loss and optimize the model
             self.optimizer.zero_grad()
-            output = self.model(batch)
+            output = self.model(samples)
             loss = self.criterion(output, label)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=0.5)
@@ -68,12 +70,14 @@ class Trainer:
         Returns:
             {tuple} -- A tuple containing the true positive, true negative and accuracy scores.
         """
-        # Get the test set
-        test_batch, label = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
+        # Get the test data
+        data = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
+        # Get the samples and labels
+        test_samples, label = data["samples"], data["label"]
         # Convert the data to a tensor
-        test_batch, label = torch.tensor(test_batch, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
+        test_samples, label = torch.tensor(test_samples, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
         # Get the output of the model
-        output = self.model(test_batch).to(self.device)
+        output = self.model(test_samples).to(self.device)
         # Get the prediction probability
         output = torch.sigmoid(output).detach().cpu()
         # Get the predicted label
