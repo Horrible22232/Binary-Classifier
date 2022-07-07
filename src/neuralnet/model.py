@@ -3,27 +3,54 @@ import torch
 from torch import nn
 
 class RecurrentVecEncoder(nn.Module):
-    def __init__(self) -> None:
+    def __init__(self, in_features, config: dict, device:torch.device) -> None:
         """Initializes a recurrent vector encoder.
+        
+            Arguments:
+            in_features {int} -- The number of features in the input data.
+            config {dict} -- The model configuration.
+            device {torch.device} -- The device to use for the model.
         """
         super().__init__()
+        self.device = device
+        self.config = config
+        self.vec_encoder = nn.Linear(in_features, config['hidden_size'])
+        self.activ_fn = nn.ReLU()
+        self.recurrence = nn.GRU(config['hidden_size'], config['hidden_size'], batch_first=True)
         
     def forward(self, data: torch.Tensor) -> torch.Tensor:
         """Encodes the input vector.
         Arguments:
             {torch.Tensor} data -- input sequence
+            
         Returns:
             {torch.Tensor} -- encoded sequence
         """
         return data
+    
+    def init_recurrent_cell_states(self, num_sequences:int) -> tuple:
+        """Initializes the recurrent cell states (hxs, cxs) as zeros.
+        Args:
+            num_sequences {int} -- The number of sequences determines the number of the to be generated initial recurrent cell states.
+            device {torch.device} -- Target device.
+        Returns:
+            {tuple} -- Depending on the used recurrent layer type, just hidden states (gru) or both hidden states and
+                     cell states are returned using initial values.
+        """
+        hxs = torch.zeros((num_sequences), self.config["hidden_size"], dtype=torch.float32, device=self.device).unsqueeze(0)
+        cxs = None
+        if self.config["encoder"] == "lstm":
+            cxs = torch.zeros((num_sequences), self.config["hidden_size"], dtype=torch.float32, device=self.device).unsqueeze(0)
+        return hxs, cxs
 
 class Classifier(nn.Module):
-    def __init__(self, in_features, config: dict, device) -> None:
+    def __init__(self, in_features, config: dict, device:torch.device) -> None:
         """Initializes the classifier model.
 
         Arguments:
             in_features {int} -- The number of features in the input data.
             config {dict} -- The model configuration.
+            device {torch.device} -- The device to use for the model.
         """
         super().__init__()
         self.encoder = nn.Linear(in_features, config['hidden_size'])
