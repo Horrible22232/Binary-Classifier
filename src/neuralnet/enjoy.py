@@ -34,7 +34,7 @@ def main():
     
     # Generate data
     data, label = list(data_loader.sample(num_batches=1, num_samples=10))[0]
-    # Convert data to tensor
+    # Convert the data to a tensor
     data = torch.tensor(data, dtype=torch.float32)
     # Get the output of the model
     output = model(data)
