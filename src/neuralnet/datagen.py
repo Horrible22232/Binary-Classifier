@@ -10,14 +10,13 @@ class SinusGenerator:
         self.func = [self.cos, self.sin]
     
     def sample(self, num_batches: int, num_samples: int) -> tuple:
-        """ Generates a batch of samples.
+        """Generates a batch of samples.
         Arguments:
-        {int} num_batches -- number of batches to generate
-        {int} num_samples -- number of samples per batch
-        
+            num_batches {int} -- number of batches to generate
+            num_samples {int} -- number of samples per batch  
         Returns:
-        {tuple} -- (data, label) Data describes the x-value and fuction value. The label indicates if the function is sinus or cosinus.
-        If the label is 1, then the sinus funciton will be sampled at x_val else the cosinus function will be sampled.
+            {tuple} -- (data, label) Data describes the x-value and fuction value. The label indicates if the function is sinus or cosinus.
+                If the label is 1, then the sinus funciton will be sampled at x_val else the cosinus function will be sampled.
         """
         for _ in range(num_batches):
             # Generate random x-values between 0 and 1

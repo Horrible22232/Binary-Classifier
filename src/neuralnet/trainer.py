@@ -36,8 +36,7 @@ class Trainer:
         self.writer = SummaryWriter("./summaries/" + run_id + timestamp)
     
     def run_training(self) -> None:
-        """
-        Trains the model for the specified number of epochs.
+        """Trains the model for the specified number of epochs.
         """
         for epoch, (batch, label) in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
             # Convert the data to a tensor and move it to the device
@@ -65,8 +64,7 @@ class Trainer:
         self._save_model()
     
     def evaluate(self) -> tuple:
-        """
-        Evaluates the model on the test set.
+        """Evaluates the model on the test set.
         Returns:
             {tuple} -- A tuple containing the true positive, true negative and accuracy scores.
         """
@@ -89,7 +87,6 @@ class Trainer:
     
     def _write_training_summary(self, update, training_stats) -> None:
         """Writes to an event file based on the run-id argument.
-
         Arguments:
             update {int} -- Current update
             training_stats {list} -- Statistics of the training algorithm

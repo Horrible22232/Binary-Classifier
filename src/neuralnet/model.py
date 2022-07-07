@@ -5,24 +5,22 @@ from torch import nn
 class RecurrentVecEncoder(nn.Module):
     def __init__(self, in_features, config: dict, device:torch.device) -> None:
         """Initializes a recurrent vector encoder.
-        
             Arguments:
-            in_features {int} -- The number of features in the input data.
-            config {dict} -- The model configuration.
-            device {torch.device} -- The device to use for the model.
+                in_features {int} -- The number of features in the input data.
+                config {dict} -- The model configuration.
+                device {torch.device} -- The device to use for the model.
         """
         super().__init__()
         self.device = device
         self.config = config
-        self.vec_encoder = nn.Linear(in_features, config['hidden_size'])
+        self.vec_encoder = nn.Linear(in_features, self.config['hidden_size'])
         self.activ_fn = nn.ReLU()
-        self.recurrence = nn.GRU(config['hidden_size'], config['hidden_size'], batch_first=True)
+        self.recurrence = nn.GRU(self.config['hidden_size'], self.config['hidden_size'], batch_first=True)
         
     def forward(self, data: torch.Tensor) -> torch.Tensor:
         """Encodes the input vector.
         Arguments:
-            {torch.Tensor} data -- input sequence
-            
+            data {torch.Tensor} -- input sequence 
         Returns:
             {torch.Tensor} -- encoded sequence
         """
@@ -30,7 +28,7 @@ class RecurrentVecEncoder(nn.Module):
     
     def init_recurrent_cell_states(self, num_sequences:int) -> tuple:
         """Initializes the recurrent cell states (hxs, cxs) as zeros.
-        Args:
+        Arguments:
             num_sequences {int} -- The number of sequences determines the number of the to be generated initial recurrent cell states.
             device {torch.device} -- Target device.
         Returns:
@@ -46,7 +44,6 @@ class RecurrentVecEncoder(nn.Module):
 class Classifier(nn.Module):
     def __init__(self, in_features, config: dict, device:torch.device) -> None:
         """Initializes the classifier model.
-
         Arguments:
             in_features {int} -- The number of features in the input data.
             config {dict} -- The model configuration.
@@ -60,10 +57,8 @@ class Classifier(nn.Module):
     def forward(self, data: torch.Tensor) -> torch.Tensor:
         """
         The forward pass of the model.
-
         Arguments:
             data {torch.Tensor} -- The input data for the model.
-
         Returns:
             {torch.Tensor} -- The output of the model, wether the data is a positive or negative example.
         """
