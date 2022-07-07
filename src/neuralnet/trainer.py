@@ -39,10 +39,8 @@ class Trainer:
         """Trains the model for the specified number of epochs.
         """
         for epoch, data in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
-            # Get the samples and labels
-            samples, label = data["samples"], data["label"]
-            # Convert the data to a tensor and move it to the device
-            samples, label = torch.tensor(samples, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
+            # Get the samples and labels as a tensor and move it to the device
+            samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["label"], dtype=torch.float32, device=self.device)
             # Calculate the loss and optimize the model
             self.optimizer.zero_grad()
             output = self.model(samples)
@@ -72,10 +70,8 @@ class Trainer:
         """
         # Get the test data
         data = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
-        # Get the samples and labels
-        test_samples, label = data["samples"], data["label"]
-        # Convert the data to a tensor
-        test_samples, label = torch.tensor(test_samples, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
+        # Get the samples and labels as a tensor
+        test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["label"], dtype=torch.float32, device=self.device)
         # Get the output of the model
         output = self.model(test_samples).to(self.device)
         # Get the prediction probability

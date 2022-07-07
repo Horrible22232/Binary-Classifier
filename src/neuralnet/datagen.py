@@ -31,4 +31,3 @@ class SinusGenerator:
             data = {"samples": samples, "label": labels}
             # Return the data and labels
             yield data
-        
