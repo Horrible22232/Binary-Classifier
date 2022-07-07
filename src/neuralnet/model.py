@@ -30,7 +30,6 @@ class RecurrentVecEncoder(nn.Module):
         """Initializes the recurrent cell states (hxs, cxs) as zeros.
         Arguments:
             num_sequences {int} -- The number of sequences determines the number of the to be generated initial recurrent cell states.
-            device {torch.device} -- Target device.
         Returns:
             {tuple} -- Depending on the used recurrent layer type, just hidden states (gru) or both hidden states and
                      cell states are returned using initial values.
