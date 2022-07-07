@@ -1,8 +1,10 @@
 "name": "SinusGenerator"
+"sequence_len": 3
 "epochs": 24000
 "learning_rate": 3.25e-4
 "batch_size": 128
 "model":
-  "encoder": "gru" # gru, lstm
-  "hidden_state_size": 222
   "hidden_size": 200
+  "recurrence":
+    "encoder": "gru" # gru, lstm
+    "hidden_state_size": 222

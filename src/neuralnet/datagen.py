@@ -31,3 +31,39 @@ class SinusGenerator:
             data = {"samples": samples, "label": labels}
             # Return the data and labels
             yield data
+            
+class NegativeSeqDataGen():
+    """Genates a sequence of random values between 0 and 1 with one negative value in the middle of the sequence.
+        The label is 1 if the negative value is in the middle of the sequence and 0 otherwise."""
+    def __init__(self, config) -> None:
+        self.sequence_len = config["sequence_len"]
+        
+    def sample(self, num_batches: int, num_samples: int) -> tuple:
+        """Generates a batch of samples.
+        Arguments:
+            num_batches {int} -- number of batches to generate
+            num_samples {int} -- number of samples per batch  
+        Returns:
+            {tuple} -- (data, label, mask) The data to be used for training
+        """
+        for _ in range(num_batches):
+            # Generate random values between 0 and 1
+            samples = np.random.random((num_samples, self.sequence_len))
+            # Generate random 0 or 1 labels
+            labels = np.random.randint(2, size=num_samples).astype(np.int).tolist()
+            # Generate a mask
+            mask = np.zeros((num_samples, self.sequence_len))
+            mask[:, -1] = 1
+            mask = mask.flatten()
+            # Set for a sample with label 1 a random value negative 
+            for i in range(num_samples):
+                if labels[i] == 1:
+                    rand_idx = np.random.randint(self.sequence_len)
+                    samples[i][rand_idx] *= -1
+            # Create the proper sequence data structure
+            samples = np.expand_dims(samples, axis=1)
+            samples = samples.swapaxes(1, -1)
+            # Create the dictionary to be returned
+            data = {"samples": samples, "label": labels, "mask": mask}
+            # Return the data
+            yield data
