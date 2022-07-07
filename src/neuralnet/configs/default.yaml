@@ -1,6 +1,7 @@
 "name": "SinusGenerator"
 "epochs": 24000
-"encoder": "gru"
 "learning_rate": 3.25e-4
 "batch_size": 128
-"hidden_size": 200
+"model":
+  "encoder": "gru"
+  "hidden_size": 200

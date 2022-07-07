@@ -22,7 +22,7 @@ class Trainer:
         self.lr = self.config['learning_rate']
         self.epochs = self.config['epochs']
         self.batch_size = self.config['batch_size']
-        self.model = Classifier(2, self.config, self.device).to(self.device)
+        self.model = Classifier(2, self.config["model"], self.device).to(self.device)
         self.model.train()
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
         self.criterion = nn.BCEWithLogitsLoss()
