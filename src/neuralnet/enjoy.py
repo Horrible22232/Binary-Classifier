@@ -32,19 +32,21 @@ def main():
     model.to(device)
     model.eval()
     
-    # Generate data
-    data, label = list(data_loader.sample(num_batches=1, num_samples=10))[0]
-    # Convert the data to a tensor
-    data = torch.tensor(data, dtype=torch.float32)
+    # Get the data
+    data = list(data_loader.sample(num_batches=1, num_samples=10))[0]
+    # Get the samples and labels
+    samples, label = data["samples"], data["label"]
+    # Convert the samples to a tensor
+    samples = torch.tensor(samples, dtype=torch.float32)
     # Get the output of the model
-    output = model(data)
+    output = model(samples)
     # Get the prediction probability
     output = torch.sigmoid(output).detach()
     # Get the predicted label
     pred_label = torch.bernoulli(output).int()
     # Create a dataframe with the data and the predicted label
-    data_dict = {"data_{}".format(i): data[:, i] for i in range(data.shape[1])}
-    results = pd.DataFrame.from_dict({**data_dict, "probability": np.around(output, decimals=4), "pred_label": pred_label, "label": label})
+    samples_dict = {"data_{}".format(i): samples[:, i] for i in range(samples.shape[1])}
+    results = pd.DataFrame.from_dict({**samples_dict, "probability": np.around(output, decimals=4), "pred_label": pred_label, "label": label})
     
     print(results)
     
