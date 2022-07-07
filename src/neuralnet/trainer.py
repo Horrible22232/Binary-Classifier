@@ -1,9 +1,9 @@
 import os
+import time
 import pickle
 import torch
-import time
-from torch import optim
 from torch import nn
+from torch import optim
 from model import Classifier
 from utils import create_data_loader
 from torch.utils.tensorboard import SummaryWriter

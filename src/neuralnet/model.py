@@ -1,5 +1,21 @@
+from turtle import forward
 import torch
 from torch import nn
+
+class RecurrentVecEncoder(nn.Module):
+    def __init__(self) -> None:
+        """Initializes a recurrent vector encoder.
+        """
+        super().__init__()
+        
+    def forward(self, data: torch.Tensor) -> torch.Tensor:
+        """Encodes the input vector.
+        Arguments:
+            {torch.Tensor} data -- input sequence
+        Returns:
+            {torch.Tensor} -- encoded sequence
+        """
+        return data
 
 class Classifier(nn.Module):
     def __init__(self, in_features, config: dict, device) -> None:
