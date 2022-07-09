@@ -24,10 +24,10 @@ def main():
     state_dict, config = pickle.load(open(model_path, "rb"))
     
     # Instantiate the data loader
-    data_loader = create_data_loader(config)
+    data_loader = create_data_loader(config["data"])
     
     # Initialize model and load its parameters
-    model = Classifier(data_loader.dim, config, device)
+    model = Classifier(data_loader.dim, config["model"])
     model.load_state_dict(state_dict)
     model.to(device)
     model.eval()
@@ -37,15 +37,22 @@ def main():
     # Get the samples and labels
     samples, label = data["samples"], data["label"]
     # Convert the samples to a tensor
-    samples = torch.tensor(samples, dtype=torch.float32)
+    samples = torch.tensor(samples, dtype=torch.float32, device=device)
     # Get the output of the model
     output = model(samples)
+    # Mask the output if necessary
+    if "mask" in data:
+        output = output[data["mask"] == 1]
     # Get the prediction probability
     output = torch.sigmoid(output).detach()
     # Get the predicted label
     pred_label = torch.bernoulli(output).int()
     # Create a dataframe with the data and the predicted label
-    samples_dict = {"data_{}".format(i): samples[:, i] for i in range(samples.shape[1])}
+    if len(samples.shape) == 2: 
+        samples_dict = {"data_{}".format(i): samples[:, i] for i in range(samples.shape[1])}
+    else:
+        samples_dict = {"data_{}{}".format(seq_i, i): samples[:, seq_i, i] for i in range(samples.shape[2]) for seq_i in range(samples.shape[1])}
+        
     results = pd.DataFrame.from_dict({**samples_dict, "probability": np.around(output, decimals=4), "pred_label": pred_label, "label": label})
     
     print(results)

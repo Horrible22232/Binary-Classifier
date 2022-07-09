@@ -22,9 +22,9 @@ class Trainer:
         self.lr = self.config['learning_rate']
         self.epochs = self.config['epochs']
         self.batch_size = self.config['batch_size']
-        self.train_data_gen = create_data_loader(config)
-        self.test_data_gen = create_data_loader(config)
-        self.model = Classifier(self.train_data_gen.dim, self.config["model"], self.device).to(self.device)
+        self.train_data_gen = create_data_loader(config["data"])
+        self.test_data_gen = create_data_loader(config["data"])
+        self.model = Classifier(self.train_data_gen.dim, self.config["model"]).to(self.device)
         self.model.train()
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
         self.criterion = nn.BCEWithLogitsLoss()
@@ -44,6 +44,9 @@ class Trainer:
             # Calculate the loss and optimize the model
             self.optimizer.zero_grad()
             output = self.model(samples)
+            # Mask the output if necessary
+            if "mask" in data:
+                output = output[data["mask"] == 1]
             loss = self.criterion(output, label)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=0.5)
@@ -74,6 +77,9 @@ class Trainer:
         test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["label"], dtype=torch.float32, device=self.device)
         # Get the output of the model
         output = self.model(test_samples).to(self.device)
+        # Mask the output if necessary
+        if "mask" in data:
+            output = output[data["mask"] == 1]
         # Get the prediction probability
         output = torch.sigmoid(output).detach().cpu()
         # Get the predicted label

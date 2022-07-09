@@ -33,11 +33,11 @@ class SinusGenerator:
             # Return the data and labels
             yield data
             
-class NegativeSeqDataGen():
+class NegativeSeqGen():
     """Genates a sequence of random values between 0 and 1 with one negative value in the middle of the sequence.
         The label is 1 if the negative value is in the middle of the sequence and 0 otherwise."""
-    def __init__(self, config) -> None:
-        self.sequence_len = config["sequence_len"]
+    def __init__(self, sequence_len) -> None:
+        self.sequence_len = sequence_len
         self.dim = 1
         
     def sample(self, num_batches: int, num_samples: int) -> tuple:
@@ -53,7 +53,7 @@ class NegativeSeqDataGen():
             samples = np.random.random((num_samples, self.sequence_len))
             # Generate random 0 or 1 labels
             labels = np.random.randint(2, size=num_samples).astype(np.int).tolist()
-            # Generate a mask
+            # Generate a mask for the rnn
             mask = np.zeros((num_samples, self.sequence_len))
             mask[:, -1] = 1
             mask = mask.flatten()

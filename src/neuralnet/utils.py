@@ -1,4 +1,4 @@
-from datagen import SinusGenerator, NegativeSeqDataGen
+from datagen import SinusGenerator, NegativeSeqGen
 
 def create_data_loader(config:dict):
     """Initializes the data loader based on the provided name
@@ -9,5 +9,5 @@ def create_data_loader(config:dict):
     """
     if config["name"] == "SinusGenerator":
         return SinusGenerator()
-    if config["name"] == "NegativeSeqDataGen":
-        return NegativeSeqDataGen(config["sequence_len"])
+    if config["name"] == "NegativeSeqGen":
+        return NegativeSeqGen(config["sequence_len"])
