@@ -1,9 +1,9 @@
 import os
+import time
 import pickle
 import torch
-import time
-from torch import optim
 from torch import nn
+from torch import optim
 from model import Classifier
 from utils import create_data_loader
 from torch.utils.tensorboard import SummaryWriter
@@ -22,12 +22,12 @@ class Trainer:
         self.lr = self.config['learning_rate']
         self.epochs = self.config['epochs']
         self.batch_size = self.config['batch_size']
-        self.model = Classifier(2, self.config, self.device).to(self.device)
+        self.train_data_gen = create_data_loader(config["data"])
+        self.test_data_gen = create_data_loader(config["data"])
+        self.model = Classifier(self.train_data_gen.dim, self.config["model"]).to(self.device)
         self.model.train()
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
         self.criterion = nn.BCEWithLogitsLoss()
-        self.train_data_gen = create_data_loader(config)
-        self.test_data_gen = create_data_loader(config)
         
         # Setup Tensorboard Summary Writer
         if not os.path.exists("./summaries"):
@@ -36,15 +36,17 @@ class Trainer:
         self.writer = SummaryWriter("./summaries/" + run_id + timestamp)
     
     def run_training(self) -> None:
+        """Trains the model for the specified number of epochs.
         """
-        Trains the model for the specified number of epochs.
-        """
-        for epoch, (batch, label) in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
-            # Convert the data to a tensor and move it to the device
-            batch, label = torch.tensor(batch, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
+        for epoch, data in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
+            # Get the samples and labels as a tensor and move it to the device
+            samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["label"], dtype=torch.float32, device=self.device)
             # Calculate the loss and optimize the model
             self.optimizer.zero_grad()
-            output = self.model(batch)
+            output = self.model(samples)
+            # Mask the output if necessary
+            if "mask" in data:
+                output = output[data["mask"] == 1]
             loss = self.criterion(output, label)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=0.5)
@@ -65,17 +67,19 @@ class Trainer:
         self._save_model()
     
     def evaluate(self) -> tuple:
-        """
-        Evaluates the model on the test set.
+        """Evaluates the model on the test set.
         Returns:
             {tuple} -- A tuple containing the true positive, true negative and accuracy scores.
         """
-        # Get the test set
-        test_batch, label = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
-        # Convert the data to a tensor
-        test_batch, label = torch.tensor(test_batch, dtype=torch.float32, device=self.device), torch.tensor(label, dtype=torch.float32, device=self.device)
+        # Get the test data
+        data = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
+        # Get the samples and labels as a tensor
+        test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["label"], dtype=torch.float32, device=self.device)
         # Get the output of the model
-        output = self.model(test_batch).to(self.device)
+        output = self.model(test_samples).to(self.device)
+        # Mask the output if necessary
+        if "mask" in data:
+            output = output[data["mask"] == 1]
         # Get the prediction probability
         output = torch.sigmoid(output).detach().cpu()
         # Get the predicted label
@@ -89,7 +93,6 @@ class Trainer:
     
     def _write_training_summary(self, update, training_stats) -> None:
         """Writes to an event file based on the run-id argument.
-
         Arguments:
             update {int} -- Current update
             training_stats {list} -- Statistics of the training algorithm
