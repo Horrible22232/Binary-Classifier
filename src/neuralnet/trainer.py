@@ -23,7 +23,7 @@ class Trainer:
         self.epochs = self.config['epochs']
         self.batch_size = self.config['batch_size']
         self.train_data_gen = create_data_loader(config["data"])
-        self.test_data_gen = create_data_loader(config["data"])
+        # self.test_data_gen = create_data_loader(config["data"])
         self.model = Classifier(self.train_data_gen.dim, self.config["model"]).to(self.device)
         self.model.train()
         self.optimizer = optim.AdamW(self.model.parameters(), lr=self.lr)
@@ -67,7 +67,7 @@ class Trainer:
         self._save_model()
     
     def evaluate(self, data) -> tuple:
-        """Evaluates the model on the test set.
+        """Evaluates the model on the train set.
         Returns:
             {tuple} -- A tuple containing the true positive, true negative and accuracy scores.
         """

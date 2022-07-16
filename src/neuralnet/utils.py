@@ -13,5 +13,4 @@ def create_data_loader(config:dict):
     if config["name"] == "NegativeSeqGen":
         return NegativeSeqGen(config["sequence_len"])
     if config["name"] == "AmericanExpr":
-        return DataLoader()
-    
+        return DataLoader(config["batch_size"])
