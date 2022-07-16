@@ -29,7 +29,7 @@ class SinusGenerator:
             # Create the samples
             samples = [[x_val, func_val] for x_val, func_val in zip(x_vals, func_vals)]
             # Create the dictionary to be returned
-            data = {"samples": samples, "label": labels}
+            data = {"samples": samples, "labels": labels}
             # Return the data and labels
             yield data
             
@@ -66,6 +66,6 @@ class NegativeSeqGen():
             samples = np.expand_dims(samples, axis=1)
             samples = samples.swapaxes(1, -1)
             # Create the dictionary to be returned
-            data = {"samples": samples, "label": labels, "mask": mask}
+            data = {"samples": samples, "labels": labels, "masks": mask}
             # Return the data
             yield data

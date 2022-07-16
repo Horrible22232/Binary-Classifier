@@ -35,14 +35,14 @@ def main():
     # Get the data
     data = list(data_loader.sample(num_batches=1, num_samples=10))[0]
     # Get the samples and labels
-    samples, label = data["samples"], data["label"]
+    samples, label = data["samples"], data["labels"]
     # Convert the samples to a tensor
     samples = torch.tensor(samples, dtype=torch.float32, device=device)
     # Get the output of the model
     output = model(samples)
     # Mask the output if necessary
-    if "mask" in data:
-        output = output[data["mask"] == 1]
+    if "masks" in data:
+        output = output[data["masks"] == 1]
     # Get the prediction probability
     output = torch.sigmoid(output).detach()
     # Get the predicted label

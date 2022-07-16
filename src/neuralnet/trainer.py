@@ -40,20 +40,20 @@ class Trainer:
         """
         for epoch, data in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
             # Get the samples and labels as a tensor and move it to the device
-            samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["label"], dtype=torch.float32, device=self.device)
+            samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["labels"], dtype=torch.float32, device=self.device)
             # Calculate the loss and optimize the model
             self.optimizer.zero_grad()
             output = self.model(samples)
             # Mask the output if necessary
-            if "mask" in data:
-                output = output[data["mask"] == 1]
+            if "masks" in data:
+                output = output[data["masks"] == 1]
             loss = self.criterion(output, label)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=0.5)
             self.optimizer.step()
             
             # Evaluate the model on the test set
-            true_positive, true_negative, accuracy = self.evaluate()
+            true_positive, true_negative, accuracy = self.evaluate(data)
             
             # Print the loss and evaluation score
             print("Epoch: {}, Loss: {}".format(epoch, loss.item()))
@@ -66,20 +66,20 @@ class Trainer:
         # Save the model and the used training config after the training
         self._save_model()
     
-    def evaluate(self) -> tuple:
+    def evaluate(self, data) -> tuple:
         """Evaluates the model on the test set.
         Returns:
             {tuple} -- A tuple containing the true positive, true negative and accuracy scores.
         """
         # Get the test data
-        data = list(self.test_data_gen.sample(num_batches=1, num_samples=1000))[0]
+        # data = next(self.test_data_gen.sample(num_batches=1, num_samples=1000))
         # Get the samples and labels as a tensor
-        test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["label"], dtype=torch.float32, device=self.device)
+        test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["labels"], dtype=torch.float32, device=self.device)
         # Get the output of the model
         output = self.model(test_samples).to(self.device)
         # Mask the output if necessary
-        if "mask" in data:
-            output = output[data["mask"] == 1]
+        if "masks" in data:
+            output = output[data["masks"] == 1]
         # Get the prediction probability
         output = torch.sigmoid(output).detach().cpu()
         # Get the predicted label

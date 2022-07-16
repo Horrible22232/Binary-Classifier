@@ -1,4 +1,5 @@
 from datagen import SinusGenerator, NegativeSeqGen
+from dataloader import DataLoader
 
 def create_data_loader(config:dict):
     """Initializes the data loader based on the provided name
@@ -11,3 +12,6 @@ def create_data_loader(config:dict):
         return SinusGenerator()
     if config["name"] == "NegativeSeqGen":
         return NegativeSeqGen(config["sequence_len"])
+    if config["name"] == "AmericanExpr":
+        return DataLoader()
+    
