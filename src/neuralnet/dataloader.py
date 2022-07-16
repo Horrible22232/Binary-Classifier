@@ -6,8 +6,6 @@ class DataLoader:
     def __init__(self) -> None:
         """Initializes the data loader for the kaggle challenge.
         """
-        # Load the data
-        self.test_data = pd.read_csv("data/test_data.csv", chunksize=100)
         self.dim = 186 
     
     def sample(self, num_batches: int, num_samples: int) -> dict:
@@ -38,8 +36,8 @@ class DataLoader:
                 if customers[-1] == True or customers.sum() == 0:
                     if customers[-1] == True:
                         # Concat the data from the pervious batch and the current batch to get the full sequence
-                        o_c_train_data = c_train_data[-customers.sum():]
-                        c_train_data = pd.concat([next(train_data), o_c_train_data])
+                        old_c_train_data = c_train_data[-customers.sum():]
+                        c_train_data = pd.concat([next(train_data), old_c_train_data])
                     else:
                         c_train_data = next(train_data)
                     
@@ -69,6 +67,60 @@ class DataLoader:
             data["samples"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["samples"]])
             data["masks"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["masks"]]).reshape(-1)
             data["labels"] = torch.tensor(data["labels"], dtype = torch.float32)
+            # Return the samples, masks and labels
+            yield data
+            
+    def sample_test(self, num_samples: int) -> dict:
+        """Samples a batch of data from the data loader.
+            Arguments:
+                num_batches {int} -- Not used
+                num_samples {int} -- The number of samples to be returned from the data
+            Returns:
+                {dict} -- The data to be used for training
+        """
+        # Load the test data
+        test_data = pd.read_csv("data/test_data.csv", chunksize=num_samples)
+        # Sample the first batch of data
+        c_test_data = next(test_data)
+        while c_test_data is not None:
+            data = {"samples": [], "masks": [], "ids": []}
+            max_seq_len = 0
+            for customer_ID in c_test_data["customer_ID"]:
+                customers = c_test_data["customer_ID"].to_numpy() == customer_ID
+                # Check if the last customer is true or if the id is not in the current batch of data to load the next one
+                if customers[-1] == True or customers.sum() == 0:
+                    if customers[-1] == True:
+                        # Concat the data from the pervious batch and the current batch to get the full sequence
+                        old_c_test_data = c_test_data[-customers.sum():]
+                        c_test_data = pd.concat([next(test_data), old_c_test_data])
+                    else:
+                        c_test_data = next(test_data)
+                    
+                    # Get the next valid customer IDs        
+                    customers = c_test_data["customer_ID"].to_numpy() == customer_ID
+                    
+                # Calculate the max sequence length
+                max_seq_len = max(max_seq_len, customers.sum())
+                # Clean the training data by like removing NaNs, Strings, etc.
+                clean_test_data = c_test_data.drop(columns=["customer_ID", "S_2"])
+                clean_test_data = clean_test_data.fillna(-1.)
+                clean_test_data = clean_test_data[clean_test_data.T[clean_test_data.dtypes!=np.object].index]
+                customers_data = clean_test_data.to_numpy(dtype=np.float32)
+                # Here you can print self.dim to set it accordingly for the model
+                # print(len(customers_data[0]))
+                # Select the valid customers
+                customers_data = customers_data[customers]
+                # Create the mask for the rnn (Many to one)
+                mask = [False] * customers.sum()
+                mask[-1] = True
+                # Collect the data 
+                data["samples"].append(customers_data)
+                data["masks"].append(mask)
+                data["ids"].append(customer_ID)
+            
+            # Pad the sequences to the max length of the sequence
+            data["samples"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["samples"]])
+            data["masks"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["masks"]]).reshape(-1)
             # Return the samples, masks and labels
             yield data
                 

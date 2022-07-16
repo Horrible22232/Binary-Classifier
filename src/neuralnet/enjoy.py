@@ -1,5 +1,5 @@
-import pickle
 import torch
+import pickle
 import numpy as np
 import pandas as pd
 from docopt import docopt
