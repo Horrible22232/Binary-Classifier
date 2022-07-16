@@ -10,18 +10,18 @@ class DataLoader:
         self.test_data = pd.read_csv("data/test_data.csv", chunksize=100)
         self.dim = 186 
     
-    def sample(self, num_batches: int, batch_size: int) -> dict:
+    def sample(self, num_batches: int, num_samples: int) -> dict:
         """
             Samples a batch of data from the data loader.
             Arguments:
                 {num_batches} -- Not used
-                {batch_size} -- The size of the batch
+                {num_samples} -- The number of samples to be returned from the data
             Returns:
                 (data, label, mask) -- The data to be used for training
         """
         # Load the train data and labels from the csv file
         train_data = pd.read_csv("data/train_data.csv", chunksize=500)
-        train_labels = pd.read_csv("data/train_labels.csv", chunksize=batch_size)
+        train_labels = pd.read_csv("data/train_labels.csv", chunksize=num_samples)
         # Sample the first batch of data
         c_train_data = next(train_data)
         # Generate the batch in number of the sampled labels
