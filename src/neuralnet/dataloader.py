@@ -11,8 +11,7 @@ class DataLoader:
         self.dim = 186 
     
     def sample(self, num_batches: int, num_samples: int) -> dict:
-        """
-            Samples a batch of data from the data loader.
+        """Samples a batch of data from the data loader.
             Arguments:
                 {num_batches} -- Not used
                 {num_samples} -- The number of samples to be returned from the data
