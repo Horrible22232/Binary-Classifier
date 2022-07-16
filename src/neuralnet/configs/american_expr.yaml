@@ -1,6 +1,6 @@
 "data":
   "name": "AmericanExpr"
-"epochs": 10
+"epochs": 10 # -1 epochs means that the whole data will be used for training
 "batch_size": 128
 "learning_rate": 3.25e-4
 "model":
