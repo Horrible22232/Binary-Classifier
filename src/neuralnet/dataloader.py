@@ -75,7 +75,7 @@ class DataLoader:
                 
     def pad_sequence(self, sequence:torch.tensor, target_length:int) -> torch.tensor:
         """Pads a sequence to the target length using zeros.
-        Args:
+        Arguments:
             sequence {torch.tensor} -- The to be padded array (i.e. sequence)
             target_length {int} -- The desired length of the sequence
         Returns:
