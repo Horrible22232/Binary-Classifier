@@ -53,7 +53,7 @@ def main():
         for user in list(zip(ids, output)):
             txt = ",".join(user)
             file.write(txt + '\n')
-        print("Classified {} samples".format(i * 1000))
+        print("Classified {} samples".format((i + 1) * 1000))
     file.close()
 
 if __name__ == "__main__":
