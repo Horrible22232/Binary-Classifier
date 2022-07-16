@@ -1,6 +1,5 @@
 "data":
   "name": "AmericanExpr"
-  "batch_size": 128
 "learning_rate": 3.25e-4
 "model":
   "encoder": "RecurrentVecEncoder"
@@ -11,4 +10,4 @@
 
 # Not used atm
 "epochs": -1
-"batch_size": -1
+"batch_size": 128

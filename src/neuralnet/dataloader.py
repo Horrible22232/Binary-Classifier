@@ -3,28 +3,29 @@ import torch
 import numpy as np
 
 class DataLoader:
-    def __init__(self, batch_size) -> None:
+    def __init__(self) -> None:
         """Initializes the data loader for the kaggle challenge.
         """
         # Load the data
-        self.train_data = pd.read_csv("data/train_data.csv", chunksize=500)
-        self.train_labels = pd.read_csv("data/train_labels.csv", chunksize=batch_size)
         self.test_data = pd.read_csv("data/test_data.csv", chunksize=100)
         self.dim = 186 
     
-    def sample(self, num_batches: int, num_samples: int) -> dict:
+    def sample(self, num_batches: int, batch_size: int) -> dict:
         """
             Samples a batch of data from the data loader.
             Arguments:
                 {num_batches} -- Not used
-                {num_samples} -- Not used
+                {batch_size} -- The size of the batch
             Returns:
                 (data, label, mask) -- The data to be used for training
         """
+        # Load the train data and labels from the csv file
+        train_data = pd.read_csv("data/train_data.csv", chunksize=500)
+        train_labels = pd.read_csv("data/train_labels.csv", chunksize=batch_size)
         # Sample the first batch of data
-        c_train_data = next(self.train_data)
+        c_train_data = next(train_data)
         # Generate the batch in number of the sampled labels
-        for labels in self.train_labels:
+        for labels in train_labels:
             # Set the data dictionary
             data = {"samples": [], "masks": [], "labels": []}
             max_seq_len = 0
@@ -36,9 +37,9 @@ class DataLoader:
                     if customers[-1] == True:
                         # Concat the data from the pervious batch and the current batch to get the full sequence
                         o_c_train_data = c_train_data[-customers.sum():]
-                        c_train_data = pd.concat([next(self.train_data), o_c_train_data])
+                        c_train_data = pd.concat([next(train_data), o_c_train_data])
                     else:
-                        c_train_data = next(self.train_data)
+                        c_train_data = next(train_data)
                     
                     # Get the next valid customer IDs        
                     customers = c_train_data["customer_ID"].to_numpy() == customer_ID
