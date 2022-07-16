@@ -1,5 +1,7 @@
 "data":
   "name": "AmericanExpr"
+"epochs": 10
+"batch_size": 128
 "learning_rate": 3.25e-4
 "model":
   "encoder": "RecurrentVecEncoder"
@@ -7,7 +9,3 @@
   "rnn": "gru" # gru, lstm
   "num_layers": 2
   "hidden_state_size": 222
-
-# Not used atm
-"epochs": -1
-"batch_size": 128

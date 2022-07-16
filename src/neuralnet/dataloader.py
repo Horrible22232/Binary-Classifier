@@ -25,7 +25,10 @@ class DataLoader:
         # Sample the first batch of data
         c_train_data = next(train_data)
         # Generate the batch in number of the sampled labels
-        for labels in train_labels:
+        for num_batch, labels in enumerate(train_labels):
+            # Break the loop if the number of batches is reached
+            if num_batch == num_batches:
+                break
             # Set the data dictionary
             data = {"samples": [], "masks": [], "labels": []}
             max_seq_len = 0
