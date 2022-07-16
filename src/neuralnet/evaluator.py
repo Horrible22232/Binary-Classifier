@@ -37,7 +37,7 @@ def main():
     # Add the header to the file
     file.write("customer_ID,prediction\n")
     # Classify the test data
-    for data in data_loader.sample_test(num_samples=100):
+    for i, data in enumerate(data_loader.sample_test(num_samples=1000)):
         # Get the samples and labels
         samples, ids = data["samples"], data["ids"]
         # Get the output of the model
@@ -53,6 +53,7 @@ def main():
         for user in list(zip(ids, output)):
             txt = ",".join(user)
             file.write(txt + '\n')
+        print("Classified {} samples".format(i * 1000))
     file.close()
 
 if __name__ == "__main__":
