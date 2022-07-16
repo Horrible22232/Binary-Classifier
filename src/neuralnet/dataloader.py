@@ -66,7 +66,7 @@ class DataLoader:
                 data["masks"].append(mask)
                 data["labels"].append(label)          
             
-            # Pad the sequences to the max length sequence length
+            # Pad the sequences to the max length of the sequence
             data["samples"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["samples"]])
             data["masks"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["masks"]]).reshape(-1)
             data["labels"] = torch.tensor(data["labels"], dtype = torch.float32)
