@@ -58,8 +58,7 @@ class Classifier(nn.Module):
         self.out = nn.Linear(in_features_next_layer, 1)
     
     def forward(self, data: torch.Tensor) -> torch.Tensor:
-        """
-        The forward pass of the model.
+        """The forward pass of the model.
         Arguments:
             data {torch.Tensor} -- The input data for the model.
         Returns:

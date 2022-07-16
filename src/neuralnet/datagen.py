@@ -34,7 +34,7 @@ class SinusGenerator:
             yield data
             
 class NegativeSeqGen():
-    """Genates a sequence of random values between 0 and 1 with one negative value in the middle of the sequence.
+    """Generates a sequence of random values between 0 and 1 with one negative value in the middle of the sequence.
         The label is 1 if the negative value is in the middle of the sequence and 0 otherwise."""
     def __init__(self, sequence_len) -> None:
         self.sequence_len = sequence_len
