@@ -73,10 +73,9 @@ class DataLoader:
     def sample_test(self, num_samples: int) -> dict:
         """Samples a batch of data from the data loader.
             Arguments:
-                num_batches {int} -- Not used
                 num_samples {int} -- The number of samples to be returned from the data
             Returns:
-                {dict} -- The data to be used for training
+                {dict} -- The data to be used for evaluation
         """
         # Load the test data
         test_data = pd.read_csv("data/test_data.csv", chunksize=num_samples)
