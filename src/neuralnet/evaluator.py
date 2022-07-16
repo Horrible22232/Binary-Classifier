@@ -35,9 +35,9 @@ def main():
     # Create th file writer for the submission file
     file = open('submission.csv','w')
     # Add the header to the file
-    file.write("customer_ID,prediction\n")
+    file.write("customer_ID,prediction")
     # Classify the test data
-    for i, data in enumerate(data_loader.sample_test(num_samples=1000)):
+    for i, data in enumerate(data_loader.sample_test(num_samples=100)):
         # Get the samples and labels
         samples, ids = data["samples"], data["ids"]
         # Get the output of the model
@@ -50,10 +50,11 @@ def main():
         # Round the probabilities
         output = output.round(decimals=2).astype('str')
         # Write the results to the file
+        txt = '\n'
         for user in list(zip(ids, output)):
-            txt = ",".join(user)
-            file.write(txt + '\n')
-        print("Classified {} samples".format((i + 1) * 1000))
+            txt += ",".join(user) + '\n'
+        file.write(txt[:-2])
+        print("Classified {} samples".format((i + 1) * 100))
     file.close()
 
 if __name__ == "__main__":
