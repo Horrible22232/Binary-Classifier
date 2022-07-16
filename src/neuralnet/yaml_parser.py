@@ -10,7 +10,6 @@ class YamlParser:
 
     def __init__(self, path):
         """Loads and prepares the specified config file.
-        
         Arguments:
             path {str} -- Yaml file path to the to be loaded config file.
         """

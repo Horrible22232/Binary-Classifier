@@ -16,7 +16,7 @@ class DataLoader:
                 {num_batches} -- Not used
                 {num_samples} -- The number of samples to be returned from the data
             Returns:
-                (data, label, mask) -- The data to be used for training
+                {dict} -- The data to be used for training
         """
         # Load the train data and labels from the csv file
         train_data = pd.read_csv("data/train_data.csv", chunksize=500)
