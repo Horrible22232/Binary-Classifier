@@ -84,7 +84,7 @@ class DataLoader:
         while c_test_data is not None:
             data = {"samples": [], "masks": [], "ids": []}
             max_seq_len = 0
-            for customer_ID in c_test_data["customer_ID"]:
+            for customer_ID in c_test_data["customer_ID"].unique():
                 customers = c_test_data["customer_ID"].to_numpy() == customer_ID
                 # Check if the last customer is true or if the id is not in the current batch of data to load the next one
                 if customers[-1] == True or customers.sum() == 0:

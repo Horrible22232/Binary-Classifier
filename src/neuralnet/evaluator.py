@@ -55,6 +55,7 @@ def main():
             txt += ",".join(user) + '\n'
         file.write(txt[:-2])
         print("Classified {} samples".format((i + 1) * 100))
+        break
     file.close()
 
 if __name__ == "__main__":
