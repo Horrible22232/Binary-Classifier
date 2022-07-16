@@ -2,6 +2,8 @@ import torch
 from docopt import docopt
 from trainer import Trainer
 from yaml_parser import YamlParser
+import warnings
+warnings.filterwarnings("ignore")
 
 def main() -> None:
     # Command line arguments via docopt
