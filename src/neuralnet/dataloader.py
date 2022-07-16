@@ -49,7 +49,7 @@ class DataLoader:
                     
                 # Calculate the max sequence length
                 max_seq_len = max(max_seq_len, customers.sum())
-                # Clean the training data like removing NaNs, Strings, etc.
+                # Clean the training data by like removing NaNs, Strings, etc.
                 clean_train_data = c_train_data.drop(columns=["customer_ID", "S_2"])
                 clean_train_data = clean_train_data.fillna(-1.)
                 clean_train_data = clean_train_data[clean_train_data.T[clean_train_data.dtypes!=np.object].index]
