@@ -120,7 +120,7 @@ class DataLoader:
             # Pad the sequences to the max length of the sequence
             data["samples"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["samples"]])
             data["masks"] = torch.stack([self.pad_sequence(torch.tensor(sample, dtype = torch.float32), max_seq_len) for sample in data["masks"]]).reshape(-1)
-            # Return the samples, masks and labels
+            # Return the samples, masks and customer ids
             yield data
                 
     def pad_sequence(self, sequence:torch.tensor, target_length:int) -> torch.tensor:
