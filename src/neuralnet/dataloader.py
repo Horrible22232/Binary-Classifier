@@ -54,7 +54,7 @@ class DataLoader:
                 clean_train_data = clean_train_data.fillna(-1.)
                 clean_train_data = clean_train_data[clean_train_data.T[clean_train_data.dtypes!=np.object].index]
                 customers_data = clean_train_data.to_numpy(dtype=np.float32)
-                # Here you can print: self.dim to set it accordingly for the model
+                # Here you can print self.dim to set it accordingly for the model
                 # print(len(customers_data[0]))
                 # Select the valid customers
                 customers_data = customers_data[customers]
