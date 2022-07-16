@@ -11,3 +11,4 @@
 
 # Not used atm
 "epochs": -1
+"batch_size": -1
