@@ -56,8 +56,8 @@ class Trainer:
             true_positive, true_negative, accuracy = self.evaluate(data)
             
             # Print the loss and evaluation score
-            print("Epoch: {}, Loss: {}".format(epoch, loss.item()))
-            print("True positive score: {:2f}, True negative score: {:2f}, Accuracy: {:2f}".format(true_positive, true_negative, accuracy))
+            print("Epoch: {}, Loss: {}".format(epoch, loss.item()), flush=True)
+            print("True positive score: {:2f}, True negative score: {:2f}, Accuracy: {:2f}".format(true_positive, true_negative, accuracy), flush=True)
             
             # Write the training statistics to the summary file
             training_stats = {"loss": loss.item(), "true_positive": true_positive, "true_negative": true_negative, "accuracy": accuracy}
