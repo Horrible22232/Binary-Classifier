@@ -57,7 +57,7 @@ def main():
         file.write(txt[:-2])
         # Print the progress
         num_samples += len(ids)
-        print("Classified {}/924621 samples".format(num_samples))
+        print("Classified {}/924621 samples".format(num_samples), flush = True)
         
     file.close()
 

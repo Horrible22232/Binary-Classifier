@@ -1,4 +1,5 @@
 import os
+import gc
 import time
 import pickle
 import torch
@@ -65,6 +66,8 @@ class Trainer:
             
             if epoch % self.config["save_iter"] == 0:
                 self._save_model()
+                
+            gc.collect()
             
         # Save the model and the used training config after the training
         self._save_model()
