@@ -1,11 +1,12 @@
 "data":
   "name": "AmericanExpr"
-"epochs": 100 # -1 epochs means that the whole data will be used for training
-"batch_size": 128
+"epochs": -1 # -1 epochs means that the whole data will be used for training
+"batch_size": 256
 "learning_rate": 3.25e-4
+"save_iter": 10 # Save the model every save_iter
 "model":
   "encoder": "RecurrentVecEncoder"
-  "hidden_size": 200
+  "hidden_size": 512
   "rnn": "gru" # gru, lstm
   "num_layers": 4
-  "hidden_state_size": 228
+  "hidden_state_size": 256

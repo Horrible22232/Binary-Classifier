@@ -63,6 +63,9 @@ class Trainer:
             training_stats = {"loss": loss.item(), "true_positive": true_positive, "true_negative": true_negative, "accuracy": accuracy}
             self._write_training_summary(epoch, training_stats)
             
+            if epoch % self.config["save_iter"] == 0:
+                self._save_model()
+            
         # Save the model and the used training config after the training
         self._save_model()
     
