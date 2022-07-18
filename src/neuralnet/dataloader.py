@@ -1,6 +1,6 @@
-import pandas as pd
-import numpy as np
 import torch
+import numpy as np
+import pandas as pd
 
 class DataLoader:
     def __init__(self) -> None:
