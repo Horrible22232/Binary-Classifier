@@ -11,7 +11,7 @@ class DataLoader:
     def sample(self, num_batches: int, num_samples: int) -> dict:
         """Samples a batch of data from the data loader.
             Arguments:
-                num_batches {int} -- Not used
+                num_batches {int} -- The number of batches to be loaded from the data (i.e. the number of epochs), -1 for whole dataset
                 num_samples {int} -- The number of samples to be returned from the data
             Returns:
                 {dict} -- The data to be used for training
