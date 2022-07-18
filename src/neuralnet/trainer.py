@@ -1,5 +1,4 @@
 import os
-import gc
 import time
 import pickle
 import torch
@@ -66,8 +65,6 @@ class Trainer:
             
             if epoch % self.config["save_iter"] == 0:
                 self._save_model()
-                
-            gc.collect()
             
         # Save the model and the used training config after the training
         self._save_model()
@@ -82,7 +79,7 @@ class Trainer:
         # Get the samples and labels as a tensor
         test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["labels"], dtype=torch.float32, device=self.device)
         # Get the output of the model
-        output = self.model(test_samples).to(self.device)
+        output = self.model(test_samples)
         # Mask the output if necessary
         if "masks" in data:
             output = output[data["masks"] == 1]

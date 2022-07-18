@@ -37,7 +37,7 @@ class DataLoader:
                     if customers[-1] == True:
                         # Concat the data from the pervious batch and the current batch to get the full sequence
                         old_c_train_data = c_train_data[-customers.sum():]
-                        c_train_data = pd.concat([next(train_data), old_c_train_data])
+                        c_train_data = pd.concat([old_c_train_data, next(train_data)])
                     else:
                         c_train_data = next(train_data)
                     
