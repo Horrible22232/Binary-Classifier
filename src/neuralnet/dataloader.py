@@ -29,6 +29,7 @@ class DataLoader:
             # Set the data dictionary
             data = {"samples": [], "masks": [], "labels": []}
             max_seq_len = 0
+            # Get the sequences from the data
             for customer_ID, label in zip(labels["customer_ID"], labels["target"]):
                 # Get the valid customers by ID
                 customers = c_train_data["customer_ID"].to_numpy() == customer_ID
@@ -85,6 +86,7 @@ class DataLoader:
         while c_test_data is not None:
             data = {"samples": [], "masks": [], "ids": []}
             max_seq_len = 0
+            # Get the sequences from the data
             for customer_ID in c_test_data["customer_ID"].unique():
                 if customer_ID == last_customer_id:
                     continue
