@@ -1,8 +1,8 @@
 import torch
+import warnings
 from docopt import docopt
 from trainer import Trainer
 from yaml_parser import YamlParser
-import warnings
 warnings.filterwarnings("ignore")
 
 def main() -> None:

@@ -1,5 +1,5 @@
-from datagen import SinusGenerator, NegativeSeqGen
 from dataloader import DataLoader
+from datagen import SinusGenerator, NegativeSeqGen
 
 def create_data_loader(config:dict):
     """Initializes the data loader based on the provided name
