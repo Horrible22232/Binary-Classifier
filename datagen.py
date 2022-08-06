@@ -21,7 +21,7 @@ class SinusGenerator:
         """
         for _ in range(num_batches):
             # Generate random x-values between 0 and 1
-            x_vals = np.random.uniform(low = 0.0, high=1.0, size=num_samples)
+            x_vals = np.random.uniform(low=0.0, high=1.0, size=num_samples)
             # Generate random 0 or 1 labels
             labels = np.random.randint(2, size=num_samples).astype(np.int).tolist()
             # Evaluate the function at the x-values
