@@ -17,7 +17,7 @@ class SinusGenerator:
             num_samples {int} -- number of samples per batch  
         Returns:
             {tuple} -- (data, label) Data describes the x-value and fuction value. The label indicates if the function is sinus or cosinus.
-                If the label is 1, then the sinus funciton will be sampled at x_val else the cosinus function will be sampled.
+                If the label is 1, then the sinus function will be sampled at x_val else the cosinus function will be sampled.
         """
         for _ in range(num_batches):
             # Generate random x-values between 0 and 1
