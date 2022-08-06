@@ -7,7 +7,6 @@ class RecurrentVecEncoder(nn.Module):
             Arguments:
                 in_features {int} -- The number of features in the input data.
                 config {dict} -- The model configuration.
-                device {torch.device} -- The device to use for the model.
         """
         super().__init__()
         self.config = config
