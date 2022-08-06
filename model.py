@@ -63,6 +63,6 @@ class Classifier(nn.Module):
         Returns:
             {torch.Tensor} -- The output of the model, wether the data is a positive or negative example.
         """
-        h = self.activ_fn(self.encoder(data))
+        h = self.encoder(data)
         h = self.out(h).squeeze()
         return h

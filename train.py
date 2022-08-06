@@ -13,7 +13,7 @@ def main() -> None:
         train.py --help
     
     Options:
-        --config=<path>            Path to the config file [default: ./src/neuralnet/configs/american_expr.yaml]
+        --config=<path>            Path to the config file [default: ./configs/american_expr.yaml]
         --run-id=<path>            Specifies the tag for saving the tensorboard summary and model [default: run].
         --cpu                      Force training on CPU [default: False]
     """
