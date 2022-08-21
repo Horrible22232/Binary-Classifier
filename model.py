@@ -52,7 +52,6 @@ class Classifier(nn.Module):
         else:
             self.encoder = RecurrentVecEncoder(in_features, config)
             in_features_next_layer  = config['hidden_state_size']
-        self.activ_fn = nn.ReLU()
         self.out = nn.Linear(in_features_next_layer, 1)
     
     def forward(self, data: torch.Tensor) -> torch.Tensor:
