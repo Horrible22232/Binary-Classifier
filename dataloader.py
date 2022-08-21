@@ -35,17 +35,14 @@ class DataLoader:
                 customers = c_train_data["customer_ID"].to_numpy() == customer_ID
                 # Check if the last customer is true or if the id is not in the current batch of data to load the next one
                 if customers[-1] == True or customers.sum() == 0:
-                    if customers[-1] == True:
-                        # Concat the data from the pervious batch and the current batch to get the full sequence
-                        old_c_train_data = c_train_data[-customers.sum():]
-                        try:
+                    try:
+                        if customers[-1] == True:
+                            # Concat the data from the pervious batch and the current batch to get the full sequence
+                            old_c_train_data = c_train_data[-customers.sum():]
                             c_train_data = pd.concat([old_c_train_data, next(train_data)])
-                        except StopIteration:
-                            return
-                    else:
-                        try:
+                        else:
                             c_train_data = next(train_data)
-                        except StopIteration:
+                    except StopIteration:
                             return
                     
                     # Get the next valid customer IDs        
