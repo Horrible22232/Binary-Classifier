@@ -20,7 +20,7 @@ class Trainer:
         self.device = device
         self.run_id = run_id
         self.lr = self.config['learning_rate']
-        self.epochs = self.config['epochs']
+        self.updates = self.config['updates']
         self.batch_size = self.config['batch_size']
         self.train_data_gen = create_data_loader(config["data"])
         # self.test_data_gen = create_data_loader(config["data"])
@@ -38,7 +38,7 @@ class Trainer:
     def run_training(self) -> None:
         """Trains the model for the specified number of epochs.
         """
-        for epoch, data in enumerate(self.train_data_gen.sample(self.epochs, self.batch_size)):
+        for update, data in enumerate(self.train_data_gen.sample(self.updates, self.batch_size)):
             # Get the samples and labels as a tensor and move it to the device
             samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["labels"], dtype=torch.float32, device=self.device)
             # Calculate the loss and optimize the model
@@ -56,14 +56,14 @@ class Trainer:
             true_positive, true_negative, accuracy = self.evaluate(data)
             
             # Print the loss and evaluation score
-            print("Epoch: {}, Loss: {}".format(epoch, loss.item()), flush=True)
+            print("Update: {}, Loss: {}".format(update, loss.item()), flush=True)
             print("True positive score: {:2f}, True negative score: {:2f}, Accuracy: {:2f}".format(true_positive, true_negative, accuracy), flush=True)
             
             # Write the training statistics to the summary file
             training_stats = {"loss": loss.item(), "true_positive": true_positive, "true_negative": true_negative, "accuracy": accuracy}
-            self._write_training_summary(epoch, training_stats)
+            self._write_training_summary(update, training_stats)
             
-            if epoch % self.config["save_iter"] == 0:
+            if update % self.config["save_iter"] == 0:
                 self._save_model()
             
         # Save the model and the used training config after the training

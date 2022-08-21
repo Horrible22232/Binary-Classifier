@@ -1,7 +1,7 @@
 "data":
   "name": "NegativeSeqGen"
   "sequence_len": 3
-"epochs": 100
+"updates": 100
 "learning_rate": 3.25e-4
 "batch_size": 128
 "save_iter": 1000
