@@ -6,7 +6,7 @@ Two data generators:
 * sinus
 * negative number
 
-# American Express challenge
+# American Express Challenge
 * Used model
 
 # Future Work
