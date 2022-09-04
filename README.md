@@ -4,7 +4,7 @@ This repository provides the code of a binary classifier that is well documented
 # Contributions
 The contributions are as follows:
 * Binary classfier
-* Can be used for sequential data since it provides an optional recurrent LSTM or GRU encoder
+* Optional recurrent encoder => Can be used for sequential data
 
 # Tests
 The classifier got tested under two artificial problems:
