@@ -8,11 +8,21 @@ The contributions are as follows:
 
 # Tests
 The classifier got tested under two artificial problems:
-* In the first problem, the classifier should 
+* In the first problem, the classifier should determine wether a sample points belongs to the sinus or cosinus function:
 
-Two data generators:
-* sinus
-* negative number
+|  data: x  |  data: f(x)  |  label  |
+|---|---|---|
+|  0  |  0  |  1  |
+|  0.4  |  0.39  |  1  |
+|  0.4  |  0.92  |  0  |
+
+* In the second case, the classifier gets sequential data as input and should determine wether a negative value is part of the sequence:
+
+|  x_0  |  x_1  |  x_2  |  x_3  |  label  |
+|---|---|---|---|---|
+|  0.24  |  0.43  |  0.3  | 0.11  |  0  |
+|  0.21 |  -0.11  |  0.94  |  0.56  |  1  |
+|  0.67  |  0.35  |  0.31  |  0.22  |  0  |
 
 # American Express Challenge
 * Used model
