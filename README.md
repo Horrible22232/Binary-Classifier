@@ -8,7 +8,7 @@ The contributions are as follows:
 
 # Tests
 The classifier got tested under two artificial problems:
-* In the first problem, the classifier should determine wether a sample point x belongs to the sinus or cosinus function:
+* In the first problem, the classifier should determine wether a sample point x = (x0, x1) belongs to the sinus or cosinus function:
 
 |  x0: x  |  x1: f(x)  |  label  |
 |---|---|---|
