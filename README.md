@@ -25,7 +25,7 @@ The classifier got tested under two artificial problems:
 |  0.67  |  0.35  |  0.31  |  0.22  |  0  |
 
 # American Express Challenge
-* Used model
+In the american express challenge, the data wasn't even nearly feedable into the model, so there was a preprocessing of the data necessary. The data consists out of 186 features, where some of the features were NaN. These values got heuristically replaced with minus one. In the next step, the data got divided into sequences. However, the sequence length wasn't consisted for each data point, so there was padding necessary. In the end, the padded values got masked to not interferre the classify process. This problem which had to be solved was a many to one problem. The used model consisted out of one preprocessing layer to shape the input adequately for the four layer recurrent gru encoder. One more final layer was used for the classification problem. 
 
 # Future Work
 
