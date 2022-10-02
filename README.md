@@ -29,7 +29,7 @@ In the american express challenge, the data wasn't feedable into the model, so t
 
 # Try it out!
 It is recommended to try the code out by yourself. Follow these steps and then you are good to go:
-1. Install Pytorch
+1. Install PyTorch
 2. Install the necessary requirements: `pip install -r requirements.txt`
 3. Try it out: `python train.py`
 
