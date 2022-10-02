@@ -77,7 +77,7 @@ class Trainer:
         # Get the test data
         # data = next(self.test_data_gen.sample(num_batches=1, num_samples=1000))
         # Get the samples and labels as a tensor
-        test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["labels"], dtype=torch.float32, device=self.device)
+        test_samples, label = torch.tensor(data["samples"], dtype=torch.float32, device=self.device), torch.tensor(data["labels"], dtype=torch.float32)
         # Get the output of the model
         output = self.model(test_samples)
         # Mask the output if necessary
@@ -109,6 +109,7 @@ class Trainer:
             os.makedirs("./models")
         self.model.cpu()
         pickle.dump((self.model.state_dict(), self.config), open("./models/" + self.run_id + ".nn", "wb"))
+        self.model.to(self.device)
         print("Model saved to " + "./models/" + self.run_id + ".nn")
     
     def close(self) -> None:
