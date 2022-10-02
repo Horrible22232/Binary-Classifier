@@ -58,7 +58,6 @@ def main():
         # Print the progress
         num_samples += len(ids)
         print("Classified {}/924621 samples".format(num_samples), flush = True)
-        break
         
     file.close()
 
