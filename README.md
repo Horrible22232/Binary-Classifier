@@ -28,6 +28,7 @@ The classifier got tested under two artificial problems:
 In the american express challenge, the data wasn't feedable into the model, so there was some preprocessing of it necessary. The data consists out of 186 features, where some of the features were NaN values and some of them were even not normalized at all. Furthermore, there was a lot of correlation and some of the features were categorical. To make the model work, just the NaN values got heuristically replaced with minus one. In the next step, the data got divided into sequences. However, the sequence length wasn't consisted for each data point, so there was zero padding necessary. In the end, the padded values got masked to not interferre the classification process. This problem which had to be solved was a many to one problem. The used model consisted out of one preprocessing layer to shape the input adequately for the four layer recurrent gru encoder with a hidden size of 512. One more final layer was used for the classification problem. 
 
 # Try it out!
+It is recommended to try the code out by yourself. Follow these steps and then you are good to go:
 1. Install Pytorch
 2. Install the necessary requirements: `pip install -r requirements.txt`
 3. Try it out: `python train.py`
