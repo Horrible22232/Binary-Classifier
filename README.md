@@ -3,7 +3,7 @@ This repository provides the code of a binary classifier that is well documented
 
 # Contributions
 The contributions are as follows:
-* Binary classfier
+* Binary classifier
 * Optional recurrent encoder => Can be used for sequential data
 
 # Tests
