@@ -1,0 +1,9 @@
+__pycache__
+.vscode/
+.idea/
+data/
+.ipynb_checkpoints/
+models/
+summaries/
+test.py
+submission.csv

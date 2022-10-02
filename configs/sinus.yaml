@@ -1,0 +1,9 @@
+"data":
+  "name": "SinusGenerator"
+"updates": 24000
+"learning_rate": 3.25e-4
+"batch_size": 128
+"save_iter": 1000
+"model":
+  "encoder": "VecEncoder"
+  "hidden_size": 200
