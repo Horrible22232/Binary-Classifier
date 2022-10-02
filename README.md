@@ -16,7 +16,7 @@ The classifier got tested under two artificial problems:
 |  0.4  |  0.39  |  1  |
 |  0.4  |  0.92  |  0  |
 
-* In the second problem, the classifier gets sequential data as input and should determine wether a negative value is part of the sequence x:
+* In the second problem, the classifier gets sequential data as input and should determine whether a negative value is part of the sequence x:
 
 |  x00  |  x10  |  x20  |  x30  |  label  |
 |---|---|---|---|---|
